@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Layout from '../components/layout/layout'
 
-const APP_NAME = process.env.APP_NAME;
+const APP_NAME = process.env.REACT_APP_NAME;
 
 const Home: NextPage = () => {
   return (
