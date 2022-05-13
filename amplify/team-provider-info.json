@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-kirananetworkweb-dev-01530-authRole",
+      "UnauthRoleArn": "arn:aws:iam::455195660193:role/amplify-kirananetworkweb-dev-01530-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::455195660193:role/amplify-kirananetworkweb-dev-01530-authRole",
+      "Region": "ca-central-1",
+      "DeploymentBucketName": "amplify-kirananetworkweb-dev-01530-deployment",
+      "UnauthRoleName": "amplify-kirananetworkweb-dev-01530-unauthRole",
+      "StackName": "amplify-kirananetworkweb-dev-01530",
+      "StackId": "arn:aws:cloudformation:ca-central-1:455195660193:stack/amplify-kirananetworkweb-dev-01530/549c6390-d273-11ec-ba7b-0effc9e88ba4",
+      "AmplifyAppId": "d3g5jxrno7rzo5"
+    }
+  }
+}
