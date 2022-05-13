@@ -1,5 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import PrimaryButton from "../components/forms/primary-button";
+import Layout from "../components/layout/layout";
+import LoadingChildren from "../components/layout/loadingChildren";
 import { ListOfTripNotes, Trip, TripNote, TripsApi } from "../modules/fleetonroute";
 import configuration from "../utils/configuration";
 
@@ -8,12 +11,14 @@ export default function TrackPage() {
     const { id } = router.query;
     const [trip, setTrip] = useState<Trip>();
     const [tripNotes, setTripNotes] = useState<ListOfTripNotes>();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (id) {
             new TripsApi(configuration)
                 .listTripNotes(id as string)
                 .then(setTripNotes)
+                .then(() => setLoading(false))
                 .catch(console.error);
             new TripsApi().retrieveProofOfDelivery(id as string)
                 .then(console.log).catch((response) => {
@@ -25,12 +30,30 @@ export default function TrackPage() {
                 .then(setTrip)
                 .catch(console.error);
         }
+        else {
+            setLoading(false);
+        }
     }, [id]);
 
-    if (!trip) {
-        return <></>
-    }
+    return (
+        <Layout>
+            <LoadingChildren loading={loading}>
+                {
+                    trip && <TripDetails trip={trip} tripNotes={tripNotes} />
+                }
+                {
+                    !trip && <><TripIdInput /></>
+                }
+            </LoadingChildren>
+        </Layout>
+    );
+}
 
+type TripDetailsProps = {
+    trip: Trip, tripNotes?: ListOfTripNotes
+};
+
+function TripDetails({ trip, tripNotes }: TripDetailsProps) {
     return (
         <>
             <div className="p-4">
@@ -59,5 +82,29 @@ export default function TrackPage() {
                 </ol>
             </div>
         </>
-    );
+    )
+}
+
+function TripIdInput() {
+    const [id, setId] = useState<string>();
+    const router = useRouter();
+    function loadTrip() {
+        if (id) {
+            router.replace(`/track?id=${id}`);
+        }
+    }
+    return (
+        <div className="m-6 flex justify-center text-center ">
+            <div>
+                <input
+                    className={`form-control block px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding
+                    border border-solid border-gray-300 rounded transition ease-in-out m-0 
+                    focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
+                    onChange={evt => setId(evt.currentTarget.value)}></input>
+                <div className="mt-2">
+                    <PrimaryButton disabled={!id} onClick={loadTrip} label={"Search"} />
+                </div>
+            </div>
+        </div>
+    )
 }

@@ -2,7 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    "BASEPATH": process.env.BASEPATH
+    "BASEPATH": process.env.BASEPATH,
+    "APP_NAME": process.env.APP_NAME
   }
 }
 
