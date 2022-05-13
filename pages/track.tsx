@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import PrimaryButton from "../components/forms/primary-button";
+import Button from "../components/forms/button";
 import Layout from "../components/layout/layout";
 import LoadingChildren from "../components/layout/loadingChildren";
 import { ListOfTripNotes, Trip, TripNote, TripsApi } from "../modules/fleetonroute";
@@ -102,7 +102,7 @@ function TripIdInput() {
                     focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
                     onChange={evt => setId(evt.currentTarget.value)}></input>
                 <div className="mt-2">
-                    <PrimaryButton disabled={!id} onClick={loadTrip} label={"Search"} />
+                    <Button disabled={!id} onClick={loadTrip}>Search</Button>
                 </div>
             </div>
         </div>
