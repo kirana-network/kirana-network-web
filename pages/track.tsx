@@ -36,7 +36,7 @@ export default function TrackPage() {
     }, [id]);
 
     return (
-        <>
+        <Layout>
             <LoadingChildren loading={loading}>
                 {
                     trip && <TripDetails trip={trip} tripNotes={tripNotes} />
@@ -45,7 +45,7 @@ export default function TrackPage() {
                     !trip && <><TripIdInput /></>
                 }
             </LoadingChildren>
-        </>
+        </Layout>
     );
 }
 

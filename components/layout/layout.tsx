@@ -1,10 +1,10 @@
 import Navbar from "../navigation/navbar";
 
-export default function Layout(props: any) {
+export default function Layout({ children }: any) {
     return (
         <>
             <Navbar />
-            {props.children}
+            {children}
         </>
     )
 }
