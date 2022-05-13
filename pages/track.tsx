@@ -64,7 +64,7 @@ function TripDetails({ trip, tripNotes }: TripDetailsProps) {
                 <ol className="border-l border-gray-300">
                     {
                         tripNotes?.records?.map(tn =>
-                            <li>
+                            <li key={tn.id}>
                                 <div className="flex flex-start items-center pt-3">
                                     <div className="bg-gray-300 w-2 h-2 rounded-full -ml-1 mr-3"></div>
                                     <p className="text-gray-500 text-sm">{new Date(tn.createdAt).toLocaleString()}</p>
