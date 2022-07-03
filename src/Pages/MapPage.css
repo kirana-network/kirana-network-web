@@ -1,0 +1,28 @@
+.mapboxgl-canvas{
+    position: inherit !important;
+}
+
+#map.leaflet {
+    height: calc(100vh - 145px) !important;
+    width: 99%;
+    margin: auto;
+    background-color: black;
+}
+
+.leaflet-tooltip {
+    opacity: unset !important;
+    /* margin-top: unset; */
+    padding: 0;
+    background-color: gray;
+    border-radius: 5;
+    border: unset;
+    color: white;
+}
+.leaflet-tooltip-top:before {
+    bottom: unset;
+    margin-bottom: unset;
+    border-top-color: transparent;
+}
+div.MuiTooltip-tooltip.MuiTooltip-tooltipArrow{
+    font-size: larger;
+}

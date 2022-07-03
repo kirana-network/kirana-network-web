@@ -1,0 +1,7 @@
+.firebaseui-card-content, .firebaseui-card-footer {
+    padding: 0 !important
+}
+
+.firebaseui-idp-button, .firebaseui-tenant-button{
+    max-width: 100% !important;
+}
