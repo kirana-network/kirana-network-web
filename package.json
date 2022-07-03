@@ -8,6 +8,7 @@
         "@mui/icons-material": "^5.1.0",
         "@mui/material": "^5.1.0",
         "@mui/styles": "^5.1.1",
+        "@mui/system": "^5.1.0",
         "chroma-js": "^2.1.2",
         "date-fns": "^2.27.0",
         "dayjs": "^1.10.7",
