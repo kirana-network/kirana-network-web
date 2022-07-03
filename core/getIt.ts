@@ -4,6 +4,7 @@ import { ClientsApi, Configuration, InvitationsApi, OrganizationsApi, TripsApi, 
 import { NotificationService, NotificationServiceImpl } from "./services/notificationService";
 import { getLoggingInstance } from "./utils/logger";
 import * as portableFetch from "portable-fetch";
+import configuration from "../utils/configuration";
 
 function _fetch(url: any, options: any) {
     const clientInfo = require("../core/apiClient/client.version.json");
@@ -14,12 +15,12 @@ function _fetch(url: any, options: any) {
 
 let isRegistered = false;
 const logger = getLoggingInstance("DIRegistry");
-export function register() {
+export function registerDependencies() {
     if (isRegistered) {
         return;
     }
     container.register("NotificationService", { useValue: new NotificationServiceImpl() });
-    container.register("ApiConfiguration", { useValue: new Configuration() });
+    container.register("ApiConfiguration", { useValue: configuration });
 
     container.register("UserprofilesApi", {
         useFactory: (c) => {
@@ -57,3 +58,5 @@ export function _OrganizationsApi() { return container.resolve<OrganizationsApi>
 export function _ClientsApi() { return container.resolve<ClientsApi>("ClientsApi") };
 export function _InvitationsApi() { return container.resolve<InvitationsApi>("InvitationsApi") };
 export function _TripsApi() { return container.resolve<TripsApi>("TripsApi") };
+
+

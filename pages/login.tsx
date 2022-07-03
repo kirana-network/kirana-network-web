@@ -9,7 +9,8 @@ import 'reflect-metadata';
 import { useSnackbar } from "notistack";
 import { getLoggingInstance } from "../core/utils/logger";
 import { basename } from "path";
-import { initializeApp } from "../core/utils/auth";
+import { initializeFirebaseApp } from "../core/utils/auth";
+import { useRouter } from "next/router";
 
 const logger = getLoggingInstance(basename(__filename));
 
@@ -27,7 +28,7 @@ export default function LoginPage() {
 
     useEffect(() => {
         setLoading(false);
-        initializeApp();
+        initializeFirebaseApp();
     }, [])
 
     if (loading) {
@@ -101,6 +102,7 @@ function EmailLoginFragment(props: any) {
     const [showPasswordField, setShowPasswordField] = useState(false);
     const [error, setError] = useState("");
     const { enqueueSnackbar } = useSnackbar();
+    const router = useRouter();
 
     if (showAlternateSignInMethod) {
         return (
@@ -139,6 +141,7 @@ function EmailLoginFragment(props: any) {
             .signInWithEmailAndPassword(email, password)
             .then(credentials => {
                 logger.trace("credentials", { credentials });
+                router.replace("/")
             })
             .catch(error => setError(error.message || typeof error));
     }

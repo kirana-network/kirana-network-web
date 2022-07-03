@@ -2,8 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    "REACT_APP_BASEPATH": process.env.BASEPATH,
-    "REACT_APP_NAME": process.env.APP_NAME,
+    REACT_API_BASEPATH: process.env.API_BASEPATH,
+    REACT_APP_NAME: process.env.APP_NAME,
     REACT_APP_LOGGER_LEVEL: process.env.REACT_APP_LOGGER_LEVEL,
     REACT_APP_FIREBASE_API_KEY: process.env.REACT_APP_FIREBASE_API_KEY,
     REACT_APP_FIREBASE_AUTH_DOMAIN: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,

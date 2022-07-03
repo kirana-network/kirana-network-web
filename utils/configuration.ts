@@ -1,5 +1,5 @@
 import { Configuration } from "../modules/fleetonroute";
 
 export default {
-    basePath: process.env.REACT_APP_BASEPATH,
+    basePath: process.env.REACT_API_BASEPATH,
 } as Configuration;

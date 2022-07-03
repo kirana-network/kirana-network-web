@@ -3,6 +3,7 @@ import { container } from "tsyringe";
 import { Configuration } from "../apiClient";
 import { getLoggingInstance } from "./logger";
 import dayjs from "dayjs";
+import { useEffect, useState } from "react";
 
 let refreshInterval: any;
 const REFRESH_INTERVAL = 1000 * 60 * 5; // 5 minutes
@@ -49,7 +50,7 @@ export function attachCredentialsToApiClient(token: any) {
     logger.info("Configuration", { apiConfiguration });
 }
 
-export function initializeApp() {
+export function initializeFirebaseApp() {
     // Initialize Firebase
     var firebaseConfig = {
         apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -60,7 +61,7 @@ export function initializeApp() {
         messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
         appId: process.env.REACT_APP_FIREBASE_APP_ID
     };
-    if (!firebase.apps.length){
+    if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
 }
