@@ -13,8 +13,8 @@ export default function AppContainer(props: any) {
                 </BrowserRouter>
             }
             {
-                window.location.pathname.startsWith("/admin") &&
-                <BrowserRouter basename="admin">
+                !window.location.pathname.startsWith("/track") &&
+                <BrowserRouter>
                     <AdminApp />
                 </BrowserRouter>
             }
