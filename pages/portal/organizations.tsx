@@ -86,7 +86,7 @@ function ListOrganizationsTable(props: any) {
         <DataTable
             headers={[t("app.organizations.name"), t("app.organizations.address"), t("app.organizations.role"), t("app.organizations.owner")]}
             rows={rows.map(row => [
-                <PlainLink href={`/organizations/${row.id}/details`}><strong>{row.name}</strong></PlainLink>,
+                <PlainLink href={`/portal/organizations/${row.id}/details`}><strong>{row.name}</strong></PlainLink>,
                 row.address,
                 row.role,
                 [row.ownerUserProfile?.firstName, row.ownerUserProfile?.lastName].filter(r => !!r).join(" ")
