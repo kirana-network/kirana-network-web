@@ -5,3 +5,5 @@ https://www.npmjs.com/package/@aotimme/amplify-rust-function-runtime-provider?ac
 
 ## todo cleanup
 remove react-dom and other packages that are likely no longer used
+
+organizations/id/clients/id/details and organizations/id/clients/id/trips tabs need to be completed

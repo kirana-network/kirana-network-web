@@ -30,10 +30,10 @@ export default function ListOrganizationClients(props: any) {
     const router = useRouter();
     const { enqueueSnackbar } = useSnackbar();
     const [authUser, setAuthUser] = useState<firebase.User>();
-    const { id } = router.query;
+    const { organizationId } = router.query;
     const loadData = () => {
         _OrganizationsApi()
-            .listClients(id as any)
+            .listClients(organizationId as any)
             .then(listOfClients => {
                 setRows(
                     (listOfClients?.records || []).map(client => ({
@@ -60,17 +60,17 @@ export default function ListOrganizationClients(props: any) {
     }, [])
 
     useEffect(() => {
-        if (authUser && id) {
+        if (authUser && organizationId) {
             loadData();
         }
-    }, [authUser, id]);
+    }, [authUser, organizationId]);
 
     const columns = useMemo(
         () => [
             {
                 Header: t("app.organizations.name"),
                 accessor: r => [r.firstName, r.lastName].filter(v => !!v).join(" "),
-                Cell: ({ cell: { value, row: { original: { id, organizationId } } } }) => <PlainLink href={`/organizations/${organizationId}/clients/${id}`}><strong>{value}</strong></PlainLink>,
+                Cell: ({ cell: { value, row: { original: { id, organizationId } } } }) => <PlainLink href={`/portal/organizations/${organizationId}/clients/${id}`}><strong>{value}</strong></PlainLink>,
             },
             {
                 Header: t("app.organizations.address"),
@@ -106,7 +106,7 @@ export default function ListOrganizationClients(props: any) {
     return (
         <>
             <Box m={2}>
-                <Button sx={{ float: "right" }} onClick={() => router.push(`/portal/organizations/${id}/clients/create`)}>{t("app.organizations.create_client")}</Button>
+                <Button sx={{ float: "right" }} onClick={() => router.push(`/portal/organizations/${organizationId}/clients/create`)}>{t("app.organizations.create_client")}</Button>
                 <Typography variant="h6">{t("app.menu.clients")}</Typography>
             </Box>
             <DataGrid
