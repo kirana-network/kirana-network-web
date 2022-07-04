@@ -28,9 +28,9 @@ import OrganizationTeam from './Pages/Organizations/OrganizationTeam';
 import OrganizationInvitations from './Pages/Organizations/OrganizationInvitations';
 import ListOrganizationClients from './Pages/Organizations/ListOrganizationClients';
 import ListOrganizationTrips from './Pages/Organizations/ListOrganizationTrips';
-import { useSnackbar } from "notistack";
-import React from 'react';
 import LandingPage from './Pages/LandingPage';
+
+import { TrackPage, TrackTrip } from "./Pages/Trips/TrackTrip";
 
 const logger = getLoggingInstance(AdminApp.name);
 
@@ -99,7 +99,7 @@ export default function AdminApp() {
 
     return (
         <>
-            {/* <ThemeProvider theme={theme}> */}
+            <ThemeProvider theme={theme}>
             <CssBaseline />
             <TopAppBar
                 title={t("app.title")}
@@ -139,7 +139,7 @@ export default function AdminApp() {
                     {!user && <Route path="/login" element={<LoginPage />} />}
                 </Routes>
             </Box>
-            {/* </ThemeProvider> */}
+            </ThemeProvider>
         </>
     );
 }
@@ -217,86 +217,23 @@ async function retrieveUserProfileOrganizations(user: firebase.User) {
 
 
 export function App() {
-    // const [user, setUser] = useState<firebase.User>();
-    // const [loading, setLoading] = useState(true);
-    // const navigate = useNavigate();
-    // const t = useTranslate();
-    // const location = useLocation();
-    // const resolvedPath = useResolvedPath(location.pathname);
-    // const [organization, setOrganization] = useState<Organization>();
-    // const [organizations, setOrganizations] = useState<Organization[]>();
     const mode = localStorage.getItem("mode") as any || "dark";
     const [theme, setTheme] = useState(getTheme(mode));
     console.log("themetheme", theme);
     const [menuOpen, setMenuOpen] = useState(false);
-    // const handleAuthChange = async () => {
-    //     firebase.auth()
-    //         .onIdTokenChanged(async user => {
-    //             if (!user) {
-    //                 setLoading(false);
-    //                 return navigate("login");
-    //             }
-
-    //             const token = await user.getIdToken();
-    //             attachCredentialsToApiClient(token);
-
-    //             initializeUserProfile(user);
-    //             setUser(user);
-    //             logger.info("Connect to websocket now", { user, location, resolvedPath });
-    //             _NotificationService().connect(token);
-    //             const { organizations, organization } = await retrieveUserProfileOrganizations(user);
-    //             if (organizations.length) {
-    //                 setOrganization(organization);
-    //                 setOrganizations(organizations);
-    //                 if (location.pathname.includes("login")) {
-    //                     navigate(`organizations/${organization.id}/details`);
-    //                 }
-    //             }
-    //             else {
-    //                 navigate("/home");
-    //             }
-    //             setLoading(false);
-    //         });
-    // }
-
-    // useEffect(() => {
-    //     logger.trace("useEffect.handleAuthChange");
-    //     handleAuthChange();
-    // }, []);
-
-    // useEffect(() => {
-    //     logger.trace("useEffect.user");
-    //     if (user) {
-    //         startRefreshTokenInterval();
-    //     }
-    //     return () => clearRefreshTokenInterval();
-    // }, [user]);
-
-    // if (loading) {
-    //     return <Loading />
-    // }
 
     return (
         <>
-            {/* <ThemeProvider theme={theme}> */}
+            <ThemeProvider theme={theme}>
             <CssBaseline />
-            {/* <TopAppBar
-                    title={t("app.title")}
-                    showButtons={!!user}
-                    showMenuIcon={!!user}
-                    organization={organization}
-                    organizations={organizations}
-                    onChange={(org: Organization) => setOrganization(org)}
-                    menuOpen={menuOpen}
-                    setMenuOpen={setMenuOpen}
-                    mode={mode}
-                /> */}
             <Box>
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
+                    <Route path="/track" element={<TrackPage />} />
+                    <Route path="/track/:id" element={<TrackTrip />} />
                 </Routes>
             </Box>
-            {/* </ThemeProvider> */}
+            </ThemeProvider>
         </>
     );
 }

@@ -13,21 +13,7 @@ import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "styled-components";
 import getTheme from "../../theme";
 
-export default function TrackTripRoutes(props: any) {
-    // const mode = localStorage.getItem("mode") as any || "dark";
-    // const [theme, setTheme] = useState(getTheme("dark"));
-    // console.log("themetheme", theme);
-    return (
-        // <ThemeProvider theme={theme}>
-            <Routes>
-                <Route path="/" element={<TrackPage />} />
-                <Route path=":id" element={<TrackTrip />} />
-            </Routes>
-        // </ThemeProvider>
-    )
-}
-
-function TrackPage() {
+export function TrackPage() {
     return (
         <>
             <CssBaseline />
@@ -40,7 +26,7 @@ function TrackPage() {
 let _gpsUnits: GPSUnit[] = [];
 const RETRIEVE_TRIP_INTERVAL_MS = 60000;
 
-function TrackTrip(props: any) {
+export function TrackTrip(props: any) {
     const [loading, setLoading] = useState(true);
     const [trip, setTrip] = useState<Trip>();
     const { id } = useParams();

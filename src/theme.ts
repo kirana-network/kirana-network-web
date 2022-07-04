@@ -38,7 +38,8 @@ function getThemeDefinition(mode): ThemeOptions {
 
 export default function getTheme(mode: PaletteMode) {
     const logger = getLoggingInstance(getTheme.name);
-    const definition = getThemeDefinition(mode);
+    // TODO: better light mode theme that matches the landing page imagery
+    const definition = getThemeDefinition("dark"); 
     logger.trace("info", { mode });
     return createTheme(definition);
 }
