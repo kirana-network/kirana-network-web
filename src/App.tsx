@@ -30,6 +30,7 @@ import ListOrganizationClients from './Pages/Organizations/ListOrganizationClien
 import ListOrganizationTrips from './Pages/Organizations/ListOrganizationTrips';
 import { useSnackbar } from "notistack";
 import React from 'react';
+import LandingPage from './Pages/LandingPage';
 
 const logger = getLoggingInstance(AdminApp.name);
 
@@ -45,8 +46,9 @@ export default function AdminApp() {
     const resolvedPath = useResolvedPath(location.pathname);
     const [organization, setOrganization] = useState<Organization>();
     const [organizations, setOrganizations] = useState<Organization[]>();
-    const mode = localStorage.getItem("mode") as any;
+    const mode = localStorage.getItem("mode") as any || "dark";
     const [theme, setTheme] = useState(getTheme(mode));
+    console.log("themetheme", theme);
     const [menuOpen, setMenuOpen] = useState(true);
     const handleAuthChange = async () => {
         firebase.auth()
@@ -97,47 +99,47 @@ export default function AdminApp() {
 
     return (
         <>
-            <ThemeProvider theme={theme}>
-                <CssBaseline />
-                <TopAppBar
-                    title={t("app.title")}
-                    showButtons={!!user}
-                    showMenuIcon={!!user}
-                    organization={organization}
-                    organizations={organizations}
-                    onChange={(org: Organization) => setOrganization(org)}
-                    menuOpen={menuOpen}
-                    setMenuOpen={setMenuOpen}
-                    mode={mode}
-                />
-                <NavigationDrawer organization={organization} open={menuOpen} />
-                <Box marginTop={marginTop} marginLeft={menuOpen ? marginLeft : 0} style={{ transitionProperty: "margin", transitionDuration: "0.25s" }}>
-                    <Routes>
-                        {/* TODO: Group organizations using `organizations/*` */}
-                        {user &&
-                            <>
-                                <Route path="/organizations" element={<ListOrganizations />} />
-                                <Route path="/organizations/:id/clients" element={<ListOrganizationClients record={organization} />} />
-                                <Route path="/organizations/:id/details" element={<OrganizationForm record={organization} />} />
-                                <Route path="/organizations/:id/invitations" element={<OrganizationInvitations record={organization} />} />
-                                <Route path="/organizations/:id/team" element={<OrganizationTeam record={organization} />} />
-                                <Route path="/organizations/:id/*" element={<Navigate to={"details"} />} />
-                                <Route path="/organizations/create" element={<CreateOrganizationForm record={{ ownerUserProfileId: user.uid }} onCreate={(org: Organization) => setOrganization(org)} />} />
-                                <Route path="/organizations/:id/map" element={<MapPage record={organization} />} />
-                                <Route path="/organizations/:id/trips" element={<ListOrganizationTrips record={organization} />} />
-                                <Route path="/organizations/:organizationId/clients/create" element={<CreateClient />} />
-                                <Route path="/organizations/:organizationId/clients/:clientId/*" element={<ClientRoute />} />
-                                <Route path="/organizations/:organizationId/trips/create" element={<CreateTrip />} />
-                                <Route path="/organizations/:organizationId/trips/:tripId" element={<ShowTrip />} />
-                                <Route path="/userprofiles/:id/*" element={<UserPage />} />
-                                <Route path="/home" element={<HomePage />} />
-                                <Route path="*" element={<HomePage />} />
-                            </>
-                        }
-                        {!user && <Route path="/login" element={<LoginPage />} />}
-                    </Routes>
-                </Box>
-            </ThemeProvider>
+            {/* <ThemeProvider theme={theme}> */}
+            <CssBaseline />
+            <TopAppBar
+                title={t("app.title")}
+                showButtons={!!user}
+                showMenuIcon={!!user}
+                organization={organization}
+                organizations={organizations}
+                onChange={(org: Organization) => setOrganization(org)}
+                menuOpen={menuOpen}
+                setMenuOpen={setMenuOpen}
+                mode={mode}
+            />
+            <NavigationDrawer organization={organization} open={menuOpen} />
+            <Box marginTop={marginTop} marginLeft={menuOpen ? marginLeft : 0} style={{ transitionProperty: "margin", transitionDuration: "0.25s" }}>
+                <Routes>
+                    {/* TODO: Group organizations using `organizations/*` */}
+                    {user &&
+                        <>
+                            <Route path="/organizations" element={<ListOrganizations />} />
+                            <Route path="/organizations/:id/clients" element={<ListOrganizationClients record={organization} />} />
+                            <Route path="/organizations/:id/details" element={<OrganizationForm record={organization} />} />
+                            <Route path="/organizations/:id/invitations" element={<OrganizationInvitations record={organization} />} />
+                            <Route path="/organizations/:id/team" element={<OrganizationTeam record={organization} />} />
+                            <Route path="/organizations/:id/*" element={<Navigate to={"details"} />} />
+                            <Route path="/organizations/create" element={<CreateOrganizationForm record={{ ownerUserProfileId: user.uid }} onCreate={(org: Organization) => setOrganization(org)} />} />
+                            <Route path="/organizations/:id/map" element={<MapPage record={organization} />} />
+                            <Route path="/organizations/:id/trips" element={<ListOrganizationTrips record={organization} />} />
+                            <Route path="/organizations/:organizationId/clients/create" element={<CreateClient />} />
+                            <Route path="/organizations/:organizationId/clients/:clientId/*" element={<ClientRoute />} />
+                            <Route path="/organizations/:organizationId/trips/create" element={<CreateTrip />} />
+                            <Route path="/organizations/:organizationId/trips/:tripId" element={<ShowTrip />} />
+                            <Route path="/userprofiles/:id/*" element={<UserPage />} />
+                            <Route path="/home" element={<HomePage />} />
+                            <Route path="*" element={<HomePage />} />
+                        </>
+                    }
+                    {!user && <Route path="/login" element={<LoginPage />} />}
+                </Routes>
+            </Box>
+            {/* </ThemeProvider> */}
         </>
     );
 }
@@ -163,7 +165,7 @@ async function initializeUserProfile(user: firebase.User) {
                 .then(data => {
                     // Important: Do not show snackbar message in this scenario
                     // enqueueSnackbar(e.message, { variant: "error" })
-                    logger.error("error", { data, error});
+                    logger.error("error", { data, error });
                 })
                 .catch(e => {
                     // Important: Do not show snackbar message in this scenario
@@ -210,4 +212,91 @@ async function retrieveUserProfileOrganizations(user: firebase.User) {
             });
         return { organization: null, organizations: [] };;
     }
+}
+
+
+
+export function App() {
+    // const [user, setUser] = useState<firebase.User>();
+    // const [loading, setLoading] = useState(true);
+    // const navigate = useNavigate();
+    // const t = useTranslate();
+    // const location = useLocation();
+    // const resolvedPath = useResolvedPath(location.pathname);
+    // const [organization, setOrganization] = useState<Organization>();
+    // const [organizations, setOrganizations] = useState<Organization[]>();
+    const mode = localStorage.getItem("mode") as any || "dark";
+    const [theme, setTheme] = useState(getTheme(mode));
+    console.log("themetheme", theme);
+    const [menuOpen, setMenuOpen] = useState(false);
+    // const handleAuthChange = async () => {
+    //     firebase.auth()
+    //         .onIdTokenChanged(async user => {
+    //             if (!user) {
+    //                 setLoading(false);
+    //                 return navigate("login");
+    //             }
+
+    //             const token = await user.getIdToken();
+    //             attachCredentialsToApiClient(token);
+
+    //             initializeUserProfile(user);
+    //             setUser(user);
+    //             logger.info("Connect to websocket now", { user, location, resolvedPath });
+    //             _NotificationService().connect(token);
+    //             const { organizations, organization } = await retrieveUserProfileOrganizations(user);
+    //             if (organizations.length) {
+    //                 setOrganization(organization);
+    //                 setOrganizations(organizations);
+    //                 if (location.pathname.includes("login")) {
+    //                     navigate(`organizations/${organization.id}/details`);
+    //                 }
+    //             }
+    //             else {
+    //                 navigate("/home");
+    //             }
+    //             setLoading(false);
+    //         });
+    // }
+
+    // useEffect(() => {
+    //     logger.trace("useEffect.handleAuthChange");
+    //     handleAuthChange();
+    // }, []);
+
+    // useEffect(() => {
+    //     logger.trace("useEffect.user");
+    //     if (user) {
+    //         startRefreshTokenInterval();
+    //     }
+    //     return () => clearRefreshTokenInterval();
+    // }, [user]);
+
+    // if (loading) {
+    //     return <Loading />
+    // }
+
+    return (
+        <>
+            {/* <ThemeProvider theme={theme}> */}
+            <CssBaseline />
+            {/* <TopAppBar
+                    title={t("app.title")}
+                    showButtons={!!user}
+                    showMenuIcon={!!user}
+                    organization={organization}
+                    organizations={organizations}
+                    onChange={(org: Organization) => setOrganization(org)}
+                    menuOpen={menuOpen}
+                    setMenuOpen={setMenuOpen}
+                    mode={mode}
+                /> */}
+            <Box>
+                <Routes>
+                    <Route path="/" element={<LandingPage />} />
+                </Routes>
+            </Box>
+            {/* </ThemeProvider> */}
+        </>
+    );
 }

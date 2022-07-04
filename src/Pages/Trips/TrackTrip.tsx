@@ -8,12 +8,32 @@ import { scale } from "chroma-js";
 import { get, sortBy } from "lodash";
 import dayjs from "dayjs";
 import { useSnackbar } from "notistack";
+import LandingPageNavbar from "../../Components/Layout/LandingPageNavbar";
+import { CssBaseline } from "@mui/material";
+import { ThemeProvider } from "styled-components";
+import getTheme from "../../theme";
 
 export default function TrackTripRoutes(props: any) {
+    // const mode = localStorage.getItem("mode") as any || "dark";
+    // const [theme, setTheme] = useState(getTheme("dark"));
+    // console.log("themetheme", theme);
     return (
-        <Routes>
-            <Route path=":id" element={<TrackTrip />} />
-        </Routes>
+        // <ThemeProvider theme={theme}>
+            <Routes>
+                <Route path="/" element={<TrackPage />} />
+                <Route path=":id" element={<TrackTrip />} />
+            </Routes>
+        // </ThemeProvider>
+    )
+}
+
+function TrackPage() {
+    return (
+        <>
+            <CssBaseline />
+            <LandingPageNavbar />
+            Enter your tracking ID
+        </>
     )
 }
 

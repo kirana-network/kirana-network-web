@@ -69,7 +69,7 @@ export default function TopAppBar(props: TopAppBarProps) {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         {""}
                     </Typography>
-                    <Tooltip title={props.mode === "dark" ? t("app.menu.switch_to_light_mode") : t("app.menu.switch_to_dark_mode")}>
+                    {/* <Tooltip title={props.mode === "dark" ? t("app.menu.switch_to_light_mode") : t("app.menu.switch_to_dark_mode")}>
                         <IconButton sx={{ mr: 4 }}
                             onClick={() => {
                                 localStorage.setItem("mode", props.mode === "dark" ? "light" : "dark");
@@ -79,7 +79,7 @@ export default function TopAppBar(props: TopAppBarProps) {
                         >
                             {props.mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
                         </IconButton>
-                    </Tooltip>
+                    </Tooltip> */}
                     <Tooltip title={t("app.menu.licenses")}>
                         <IconButton  sx={{ mr: 4 }}
                             onClick={() => window.open("oss-licenses.txt")}

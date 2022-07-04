@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import AdminApp from "./App";
+import AdminApp, { App } from "./App";
 import TrackTrip from "./Pages/Trips/TrackTrip";
 import { SnackbarProvider } from 'notistack';
 
@@ -14,11 +14,17 @@ export default function AppContainer(props: any) {
             }
             {
                 window.location.pathname.startsWith("/admin") &&
-                <BrowserRouter>
+                <BrowserRouter basename="admin">
                     <AdminApp />
                 </BrowserRouter>
             }
-            {/* TODO: Normal App and Home Page */}
+            {
+                !window.location.pathname.startsWith("/track") &&
+                !window.location.pathname.startsWith("/admin") &&
+                <BrowserRouter>
+                    <App />
+                </BrowserRouter>
+            }
         </SnackbarProvider>
     );
 }
