@@ -7,8 +7,8 @@ export default function LandingPage() {
             <LandingPageNavbar />
             <Box alignItems={"center"} textAlign="center" height="100%" width="100%">
                 <Box pt={20} color="white">
-                    <Typography variant="h3">Rethink how deliveries are made</Typography>
-                    <Typography variant="h5">Some text to provide more context</Typography>
+                    <Typography variant="h3" fontFamily="'Noto Sans', sans-serif">Welcome to the Kirana Network</Typography>
+                    <Typography variant="h5" fontFamily="'Noto Sans', sans-serif">Rethink how deliveries are made</Typography>
                 </Box>
             </Box>
         </Box>

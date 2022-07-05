@@ -9,6 +9,8 @@ import { register as registerDI } from "./core/getIt";
 import { CssBaseline } from '@mui/material';
 import AppContainer from './AppContainer';
 
+import "./index.css";
+
 // Initialize Firebase
 var firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,

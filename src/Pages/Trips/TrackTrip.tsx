@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslate } from "react-polyglot";
-import { Routes, Route, useParams } from "react-router";
-import { GPSUnit, Trip } from "../../core/apiClient";
+import { Routes, Route, useParams, useNavigate } from "react-router";
+import { GPSUnit, ListOfTripNotes, Trip } from "../../core/apiClient";
 import { _NotificationService, _TripsApi } from "../../core/getIt";
 import { Map, TileLayer, marker, CircleMarker, Tooltip, Point, latLngBounds } from "leaflet";
 import { scale } from "chroma-js";
@@ -9,17 +9,35 @@ import { get, sortBy } from "lodash";
 import dayjs from "dayjs";
 import { useSnackbar } from "notistack";
 import LandingPageNavbar from "../../Components/Layout/LandingPageNavbar";
-import { CssBaseline } from "@mui/material";
+import { Box, Button, CssBaseline, Grid, IconButton, Paper, Step, StepContent, StepLabel, Stepper, TextField, Typography } from "@mui/material";
 import { ThemeProvider } from "styled-components";
 import getTheme from "../../theme";
+import { Launch } from "@mui/icons-material";
 
 export function TrackPage() {
+    const navigate = useNavigate();
+    const [id, setId] = useState("");
+
+    function search() {
+        if (id) {
+            navigate(id)
+        }
+    }
+
     return (
-        <>
-            <CssBaseline />
+        <Box width="100%" height="100vh" style={{ backgroundImage: "url(https://raw.githubusercontent.com/ahsanazim/slack-landing-page/master/screen_caps/menu_background.jpg)" }}>
             <LandingPageNavbar />
-            Enter your tracking ID
-        </>
+            <Box alignItems={"center"} textAlign="center" height="100%" width="100%">
+                <Box mt={20} py={20}>
+                    <Box display="block">
+                        <TextField onChange={evt => setId(evt.currentTarget.value)} id="outlined-basic" label="Tracking Id" variant="filled" />
+                    </Box>
+                    <Box mt={3}>
+                        <Button onClick={search} variant="contained">Search</Button>
+                    </Box>
+                </Box>
+            </Box>
+        </Box>
     )
 }
 
@@ -33,12 +51,28 @@ export function TrackTrip(props: any) {
     const [tripKeepAliveCounter, setTripKeepAliveCounter] = useState(0);
     const t = useTranslate();
     const { enqueueSnackbar } = useSnackbar();
+    const navigate = useNavigate();
+    const [tripNotes, setTripNotes] = useState<ListOfTripNotes>();
 
     function retrieveTrip() {
         _TripsApi()
             .retrieveTripStatus(id).then(setTrip)
-            .catch(resp => resp.json().then(data => enqueueSnackbar(data.message, { variant: "error" })))
+            .catch(resp => {
+                resp.json().then(data => enqueueSnackbar(data.message, { variant: "error" }));
+                navigate("/")
+            })
             .finally(() => setLoading(false));
+        _TripsApi()
+            .listTripNotes(id as string)
+            .then(setTripNotes)
+            .then(() => setLoading(false))
+            .catch(console.error);
+        _TripsApi().retrieveProofOfDelivery(id as string)
+            .then(console.log).catch((response) => {
+                console.log(response.status);
+                console.error(response);
+            });
+
     }
 
     function pingWebsocket(trip: Trip) {
@@ -93,7 +127,17 @@ export function TrackTrip(props: any) {
     }
 
     return (
-        <TripMap record={trip} />
+        <Box>
+            <LandingPageNavbar />
+            <Grid p={3} container spacing={3}>
+                <Grid item xs={4}>
+                    <TripDetailsStepper tripNotes={tripNotes} />
+                </Grid>
+                <Grid item xs={8}>
+                    <TripMap record={trip} />
+                </Grid>
+            </Grid>
+        </Box>
     )
 }
 
@@ -201,7 +245,43 @@ function TripMap(props: any) {
     }
     else {
         return (
-            <div id="map" style={{ pointerEvents }} className="leaflet"></div>
+            <div id="map" style={{ pointerEvents, borderRadius: 20 }} className="leaflet"></div>
         )
     }
+}
+
+
+export default function TripDetailsStepper(props: { tripNotes: ListOfTripNotes }) {
+    const { tripNotes } = props;
+    const t = useTranslate();
+    if (!tripNotes) {
+        return <></>
+    }
+    return (
+        <Box sx={{ maxWidth: 400 }}>
+            <Stepper activeStep={tripNotes.total - 1} orientation="vertical">
+                {tripNotes.records?.map((step, index) => (
+                    <Step key={step.createdAt}>
+                        <StepLabel
+                            optional={
+                                <Box>
+                                    <Typography variant="caption">{step.content}</Typography>
+                                    {
+                                        step.extra?.exploreUrl &&
+                                        <IconButton size="small" href={step.extra?.exploreUrl} target="_blank" aria-label="launch">
+                                            <Launch />
+                                        </IconButton>
+                                    }
+                                </Box>
+                            }
+                        >
+                            <Typography>
+                                {new Date(step.createdAt).toLocaleString()}
+                            </Typography>
+                        </StepLabel>
+                    </Step>
+                ))}
+            </Stepper>
+        </Box>
+    );
 }

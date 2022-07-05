@@ -81,7 +81,8 @@
             "status": "Status",
             "trip_type": "Trip Type",
             "copy_trip": "Copy Trip",
-            "track_trip": "Track Trip"
+            "track_trip": "Track Trip",
+            "view_blockchain_tx": "View"
         },
         "common": {
             "messages": {
